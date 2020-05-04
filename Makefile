@@ -1,6 +1,6 @@
 arch ?= x86_64
-kernel := build/kernel-$(arch).bin
-iso := build/os-$(arch).iso
+kernel := build/zoysia_kernel.bin
+iso := build/zoysia_os.iso
 
 linker_script := src/arch/$(arch)/linker.ld
 grub_cfg := src/arch/$(arch)/grub.cfg
