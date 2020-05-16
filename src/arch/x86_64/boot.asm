@@ -115,7 +115,7 @@ set_up_kernel_page_tables:
     mov [p4_table + 511 * 8], eax
 
     ; map 511 P3 entry to P2 kernel table
-    mov eax, p2_kernel_table
+    mov eax, p2_table
     or eax, 0b11 ; present + writable
     mov [p3_table + 510 * 8], eax
 
