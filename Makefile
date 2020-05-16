@@ -5,6 +5,7 @@ iso := build/zoysia_os.iso
 CFLAGS		:= -ffreestanding -nostdinc -fno-pie
 CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Os -m64 -mcmodel=kernel
+CFLAGS		+= -I./src/lib/include
 
 linker_script := src/arch/$(arch)/linker.ld
 grub_cfg := src/arch/$(arch)/grub.cfg
@@ -14,6 +15,7 @@ assembly_object_files := $(patsubst src/arch/$(arch)/%.asm, \
 kernel_source_files := $(wildcard src/kernel/*.c)
 kernel_object_files := $(patsubst src/kernel/%.c, \
 	build/kernel/%.o, $(kernel_source_files))
+kernel_include_files := $(wildcard src/lib/include/*.h)
 
 .PHONY: all clean run iso
 

@@ -1,3 +1,5 @@
+#include <types.h>
+
 void kmain(){
   /* print enter kernel message */
   unsigned long *vga_ptr = (unsigned long*)0xb8000;
