@@ -12,7 +12,5 @@ long_mode_start:
     mov fs, ax
     mov gs, ax
 
-    ; print `OK` to screen
-    mov dword [0xb8000], 0x2f4b2f4f
     call kmain
     hlt
