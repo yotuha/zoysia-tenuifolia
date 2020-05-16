@@ -1,6 +1,21 @@
 #include <util/string.h>
 
 /**
+ * original implementation
+ */
+void addr_to_ascii(void *addr, char str[]) {
+    u64 addr_num = (u64)addr;
+    for (int i = 0; i < 16; i++) {
+        int n = (addr_num & 0xf);
+        if (n <= 9) str[i] = '0' + n;
+        else str[i] = 'a' + (n-10);
+        addr_num >>= 4;
+    }
+    str[16] = 'x', str[17] = '0', str[18] = '\0';
+    reverse(str);
+}
+
+/**
  * K&R implementation
  */
 void int_to_ascii(int n, char str[]) {
