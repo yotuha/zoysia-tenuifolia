@@ -1,7 +1,7 @@
 [extern long_mode_start]
 global start
 
-section .text
+section .boot
 [bits 32]
 start:
     mov esp, stack_top
@@ -11,6 +11,7 @@ start:
     call check_long_mode
 
     call set_up_page_tables
+    call set_up_kernel_page_tables
     call enable_paging
 
     lgdt [gdt64.pointer]
@@ -107,6 +108,17 @@ set_up_page_tables:
 
     ret
 
+set_up_kernel_page_tables:
+	  ; map last P4 entry to P3 table
+	  mov eax, p3_table
+	  or eax, 0b11 ; present + writable
+	  mov [p4_table + 511 * 8], eax
+
+	  ; map 511 P3 entry to P2 kernel table
+	  mov eax, p2_table
+	  or eax, 0b11 ; present + writable
+	  mov [p3_table + 510 * 8], eax
+
 
 enable_paging:
     ; load P4 to cr3 register (cpu uses this to access the P4 table)
@@ -140,20 +152,21 @@ error:
     hlt
 
 
-section .bss
 align 4096
 p4_table:
-    resb 4096
+    times 4096 DB 0
 p3_table:
-    resb 4096
+    times 4096 DB 0
 p2_table:
-    resb 4096
+    times 4096 DB 0
+p2_kernel_table:
+    times 4096 DB 0
 stack_bottom:
-    resb 63
+    times 63 DB 0
 stack_top:
 
 
-section .rodata
+;; section .rodata
 gdt64:
     dq 0 ; zero entry
 .code: equ $ - gdt64

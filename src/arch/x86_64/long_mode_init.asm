@@ -1,6 +1,7 @@
 global long_mode_start
+extern kmain
 
-section .text
+section .boot
 [bits 64]
 long_mode_start:
     ; load 0 into all data segment registers
@@ -13,4 +14,5 @@ long_mode_start:
 
     ; print `OK` to screen
     mov dword [0xb8000], 0x2f4b2f4f
+    call kmain
     hlt
