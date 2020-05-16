@@ -109,16 +109,17 @@ set_up_page_tables:
     ret
 
 set_up_kernel_page_tables:
-	  ; map last P4 entry to P3 table
-	  mov eax, p3_table
-	  or eax, 0b11 ; present + writable
-	  mov [p4_table + 511 * 8], eax
+    ; map last P4 entry to P3 table
+    mov eax, p3_table
+    or eax, 0b11 ; present + writable
+    mov [p4_table + 511 * 8], eax
 
-	  ; map 511 P3 entry to P2 kernel table
-	  mov eax, p2_table
-	  or eax, 0b11 ; present + writable
-	  mov [p3_table + 510 * 8], eax
+    ; map 511 P3 entry to P2 kernel table
+    mov eax, p2_kernel_table
+    or eax, 0b11 ; present + writable
+    mov [p3_table + 510 * 8], eax
 
+    ret
 
 enable_paging:
     ; load P4 to cr3 register (cpu uses this to access the P4 table)
